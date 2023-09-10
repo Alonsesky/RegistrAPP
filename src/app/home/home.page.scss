@@ -1,0 +1,56 @@
+#container {
+  text-align: center;
+  background-color: aliceblue;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#container strong {
+  font-size: 20px;
+  line-height: 26px;
+}
+
+#container p {
+  font-size: 16px;
+  line-height: 22px;
+
+  color: #8c8c8c;
+
+  margin: 0;
+}
+
+#container a {
+  text-decoration: none;
+}
+
+//ZONE QR
+
+.scanner-container {
+  position: relative;
+}
+
+@keyframes color-change {
+  0% { border-color: rgb(255, 115, 0); }
+  25% { border-color: rgb(0, 115, 255); }
+  50% { border-color: rgb(8, 0, 255); }
+  75% { border-color: rgb(183, 5, 218); }
+  100% { border-color: rgb(255, 0, 0); }
+}
+
+.scanner-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  margin-top: -100px;
+  margin-left: -100px;
+  border: 5px solid red;
+  
+  animation-name: color-change;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+}
