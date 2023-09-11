@@ -7,6 +7,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <h5>Bienvenido {{ usuario }}</h5>
   <div class="scanner-container" *ngIf="showScanner">
     <zxing-scanner (scanSuccess)="onCodeResult($event)"></zxing-scanner>
     <div class="scanner-overlay"></div>
