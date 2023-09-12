@@ -33,9 +33,13 @@
           </ion-grid>
         </form>
       </ion-card-content>
-      <ion-button (click)="limpiarInputs()" shape="round">Limpiar</ion-button>
-      <ion-button (click)="verificarLogin()" shape="round">Ingresar</ion-button>
+      <ion-button (click)="limpiarInputs()" shape="round" color="warning">Limpiar</ion-button>
+      <ion-button (click)="verificarLogin()" shape="round" color="success">Ingresar</ion-button>
     </ion-card>
+    <ion-button (click)="recuperarPass()" size="small" shape="circle" color="light">
+      Recuperar contraseña
+    </ion-button>
+
   </div>
 
 

@@ -25,6 +25,7 @@ export class LoginPage implements OnInit {
 
 
   ngOnInit() {
+    
     var alumno = {
       id:1,
       usuario: 'Alumno1',
@@ -39,10 +40,11 @@ export class LoginPage implements OnInit {
       password: 123456,
       name: 'Peduuuu',
       lastName: 'Pazcal',
-      rut: '11111111-1'
+      rut: '99999999-9'
     }
     var alumnos = [alumno, alumno2]
     localStorage.setItem('alumno',JSON.stringify(alumnos));
+    
   }
 
   ngAfterViewInit() {
@@ -88,5 +90,10 @@ export class LoginPage implements OnInit {
   limpiarInputs(){
     this.usuario = '';
     this.password= '';
+  }
+
+  //Crear contraseña
+  recuperarPass(){
+    this.router.navigate(['/recuperar-pass']); 
   }
 }
