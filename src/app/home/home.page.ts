@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { BarcodeFormat } from '@zxing/library';
 import QRCode from '@zxing/library/esm/core/qrcode/encoder/QRCode';
 
@@ -19,7 +20,7 @@ export class HomePage {
 
 
 
-  constructor(public router: Router) {}
+  constructor(public router: Router, public alertController: AlertController) {}
 
   public alertButtons = [
     {
@@ -44,7 +45,7 @@ export class HomePage {
     this.qrResultString = '';
   }
   
-  onCodeResult(resultString: string) {
+  async onCodeResult(resultString: string) {
     this.qrResultString = resultString;
     if (this.qrResultString!=null){
     
@@ -59,7 +60,14 @@ export class HomePage {
           if (!existingClass.asistencia.includes(this.idAlumno)) {
             existingClass.asistencia.push(this.idAlumno);
           } else {
-            alert(`Ya estas en la lista de asistencia. ${this.usuario}`);
+            // Guarda los datos modificados de nuevo en el localStorage
+            const alert = await this.alertController.create({
+              header: 'Ya estás registrado!',
+              message: `Ya estas en la lista de asistencia. ${this.usuario}`,
+              buttons: ['Aceptar']
+            });
+            await alert.present();
+            this.router.navigate(['/login']);
           }
         } else {
           var newClass = {

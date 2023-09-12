@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Animation, AnimationController, IonCardTitle } from '@ionic/angular';
+import { AlertController, Animation, AnimationController, IonCardTitle } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +16,7 @@ export class LoginPage implements OnInit {
   usuario: String = '';
   password:String='';
 
-  constructor(private animationCtrl: AnimationController, public fb: FormBuilder, public router: Router) {
+  constructor(private animationCtrl: AnimationController, public fb: FormBuilder, public router: Router,public alertController: AlertController) {
     this.fmLogin = this.fb.group({
       'usuario': new FormControl("", Validators.required),
       'password': new FormControl("", Validators.required)
@@ -25,25 +25,27 @@ export class LoginPage implements OnInit {
 
 
   ngOnInit() {
-    
-    var alumno = {
-      id:1,
-      usuario: 'Alumno1',
-      password: 123456,
-      name: 'Pedrito',
-      lastName: 'Pazcal',
-      rut: '11111111-1'
+    var alumnos = localStorage.getItem('alumno');
+    if(alumnos==null){
+      var alumno = {
+        id:1,
+        usuario: 'Alumno1',
+        password: 123456,
+        name: 'Pedrito',
+        lastName: 'Pazcal',
+        rut: '11111111-1'
+      }
+      var alumno2 = {
+        id:2,
+        usuario: 'Alumno2',
+        password: 123456,
+        name: 'Peduuuu',
+        lastName: 'Pazcal',
+        rut: '99999999-9'
+      }
+      var agregar = [alumno, alumno2]
+      localStorage.setItem('alumno',JSON.stringify(agregar));
     }
-    var alumno2 = {
-      id:2,
-      usuario: 'Alumno2',
-      password: 123456,
-      name: 'Peduuuu',
-      lastName: 'Pazcal',
-      rut: '99999999-9'
-    }
-    var alumnos = [alumno, alumno2]
-    localStorage.setItem('alumno',JSON.stringify(alumnos));
     
   }
 
@@ -59,7 +61,7 @@ export class LoginPage implements OnInit {
   }
 
   //Verificar datos de login
-  verificarLogin(){
+  async verificarLogin(){
     var form = this.fmLogin.value;
     var alumnos = localStorage.getItem('alumno');
   
@@ -69,6 +71,16 @@ export class LoginPage implements OnInit {
       let userItems = usersItems.find( (alumno: { usuario: string; }) => 
       alumno.usuario === form.usuario
       );
+
+      if(this.fmLogin.invalid){
+        const alert = await this.alertController.create({
+          header: 'Datos incompletos',
+          message: 'Debe llenar todos los datos.',
+          buttons: ['Aceptar']
+        });
+        await alert.present();
+        return;
+      }
       if (userItems && userItems.usuario == form.usuario && userItems.password == form.password) {
         //ELIMINAR Posibles datos anteriores
         localStorage.removeItem('login');
@@ -82,6 +94,14 @@ export class LoginPage implements OnInit {
         //Redirigir al usuario ingresado
         this.router.navigate(['/home']); 
         this.limpiarInputs();
+      } else {
+        const alert = await this.alertController.create({
+          header: 'Datos Erróneo',
+          message: 'Debe ingresar datos validos.',
+          buttons: ['Aceptar']
+        });
+        await alert.present();
+        return;
       }
     }
   }
