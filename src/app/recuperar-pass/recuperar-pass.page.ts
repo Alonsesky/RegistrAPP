@@ -17,10 +17,7 @@ export class RecuperarPassPage implements OnInit {
   validation: boolean = false;
   constructor(public fb: FormBuilder, public router: Router, public alertController: AlertController) {
     this.fmRegister = this.fb.group({
-      'usuario': new FormControl("", Validators.required),
-      'password': new FormControl("", Validators.required),
-      'name': new FormControl("", Validators.required),
-      'lastName': new FormControl("", Validators.required),
+      'newPassword': new FormControl("", Validators.required),
       'rut': new FormControl("", Validators.required),
       'dv': new FormControl("", Validators.required)
     });
@@ -50,15 +47,7 @@ export class RecuperarPassPage implements OnInit {
       });
       await alert.present();
       return;
-    } else if (form.usuario.length>8 || form.usuario.length<3 || form.usuario=='') {
-      const alert = await this.alertController.create({
-        header: 'Datos incorrectos',
-        message: 'Usuario debe ser entre 3-8 dígitos.',
-        buttons: ['Aceptar']
-      });
-      await alert.present();
-      return;
-    } else if(form.password.length<4 || form.password==''){
+    } else if(form.newPassword.length<4 || form.newPassword==''){
       const alert = await this.alertController.create({
         header: 'Datos incorrectos',
         message: 'Password debe ser 4 dígitos mínimos.',
@@ -66,10 +55,10 @@ export class RecuperarPassPage implements OnInit {
       });
       await alert.present();
       return;
-    
+
     }
     return this.validation = true;
-  } 
+  }
 
   async guardarUser(){
     var validation = await this.verificar();
@@ -86,48 +75,33 @@ export class RecuperarPassPage implements OnInit {
         let index = usersItems.findIndex(user => user.rut === this.rutDv);
         // Si el rut existe, modifica sus datos
         if (index !== -1) {
-          usersItems[index].usuario = form.usuario;
-          usersItems[index].name = form.name;
-          usersItems[index].lastName = form.lastName;
-          usersItems[index].password = form.password;
-          
+          usersItems[index].password = form.newPassword;
+          // Guarda los datos modificados en localStorage
+          localStorage.setItem('alumno', JSON.stringify(usersItems));
+          const alert = await this.alertController.create({
+            header: 'Contraseña actualizado con éxito!',
+            message: 'Recuerda tu nueva contraseña.',
+            buttons: ['Aceptar']
+          });
+          await alert.present();
+          this.router.navigate(['/login']);
+
         } else{
-          let indexUser = usersItems.findIndex(user => user.usuario === form.usuario);
-          if (indexUser==-1) {
-            var alumno = {
-              id: this.id,
-              usuario: form.usuario,
-              password: form.password,
-              name: form.name,
-              lastName: form.lastName,
-              rut: this.rutDv
-            }
-            usersItems.push(alumno);
-            // Guarda los datos modificados de nuevo en el localStorage
-            localStorage.setItem('alumno', JSON.stringify(usersItems)); 
-            const alert = await this.alertController.create({
-              header: 'Datos con exito!',
-              message: 'Se han actualizado los datos.',
-              buttons: ['Aceptar']
-            });
-            await alert.present();
-            this.router.navigate(['/login']);
-            
-          } else {
-            const alert = await this.alertController.create({
-              header: 'Datos sin éxito!',
-              message: 'El Usuario existe, intente con otro.',
-              buttons: ['Aceptar']
-            });
-            await alert.present();
-            this.router.navigate(['/recuperar-pass']);
-          }
+          const alert = await this.alertController.create({
+            header: 'Datos sin éxito!',
+            message: 'El Usuario existe, intente con otro.',
+            buttons: ['Aceptar']
+          });
+          await alert.present();
+          this.router.navigate(['/login']);
+
+
+
+
         }
-        
       }
-      
     }
-    
-    
+
+
   }
 }

@@ -18,7 +18,7 @@
               <ion-item>
                 <ion-input formControlName="usuario" [(ngModel)]="usuario" type="text" labelPlacement="floating" placeholder="Escribir Usuario">
                   <div slot="label">Usuario <ion-text color="danger">(Required)</ion-text></div>
-                </ion-input> 
+                </ion-input>
               </ion-item>
             </ion-row>
             <ion-row>
@@ -26,7 +26,7 @@
                 <ion-item>
                   <ion-input formControlName="password" [(ngModel)]="password" type="Password" labelPlacement="floating" placeholder="Escribir Contraseña">
                     <div slot="label">Password <ion-text color="danger">(Required)</ion-text></div>
-                  </ion-input>  
+                  </ion-input>
                 </ion-item>
               </ion-col>
             </ion-row>
@@ -38,6 +38,9 @@
     </ion-card>
     <ion-button (click)="recuperarPass()" size="small" shape="circle" color="light">
       Recuperar contraseña
+    </ion-button>
+    <ion-button  [routerLink]="['/register']" fill="outline" expand="block" fill="clear" shape="round">
+      Registrate
     </ion-button>
 
   </div>
