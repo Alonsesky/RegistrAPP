@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -18,7 +19,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ZXingScannerModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    FormsModule],
+    FormsModule,
+    HttpClientModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

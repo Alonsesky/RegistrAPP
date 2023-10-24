@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { LocationService } from 'src/app/services/location.service';
+import { Comuna } from 'src/app/models/comuna';
+import { Region } from 'src/app/models/region';
 
 @Component({
   selector: 'app-register',
@@ -15,8 +18,19 @@ export class RegisterPage implements OnInit {
   rut!: string;
   dv!: string;
   id!: number;
+  regiones:Region[]=[];
+  comunas:Comuna[]=[];
+  seleccionComuna:boolean = true;
+  regionSel:number = 0;
+  comunaSel:number = 0;
+  comuna!: any;
+  region!: any;
 
-  constructor(public fb: FormBuilder,  public router: Router, public alertController: AlertController) {
+  constructor(
+              public fb: FormBuilder,
+              public router: Router,
+              public alertController: AlertController,
+              private locationService:LocationService) {
     this.fmRegistro = new FormGroup({
       rut: new FormControl('',Validators.required),
       dv: new FormControl('',Validators.required),
@@ -24,12 +38,28 @@ export class RegisterPage implements OnInit {
       nombre: new FormControl('',Validators.required),
       apellido: new FormControl('',Validators.required),
       password: new FormControl('',Validators.required),
-      carrera: new FormControl('',Validators.required)
+      carrera: new FormControl('',Validators.required),
+      comuna: new FormControl(Validators.required),
+      region: new FormControl(Validators.required)
     });
   }
 
   ngOnInit() {
+    this.cargarRegion();
   }
+
+  async cargarRegion(){
+    const req = await this.locationService.getRegion();
+    this.regiones = req.data;
+  }
+
+  async cargarComuna(){
+    this.seleccionComuna = false;
+    const req = await this.locationService.getComuna(this.regionSel);
+    this.comunas = req.data;
+  }
+
+
   //Verificar Formulario de registro
   async onSubmit(){
     var form = this.fmRegistro.value;

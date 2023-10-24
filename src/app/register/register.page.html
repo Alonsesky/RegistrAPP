@@ -47,6 +47,20 @@
             </ion-row>
             <ion-row>
               <ion-col size="12">
+                <ion-item>
+                  <ion-select formControlName="region" (ionChange)="cargarComuna()" [(ngModel)]="regionSel"  label="Region" placeholder="Seleccione">
+                    <ion-select-option *ngFor="let i of regiones" [value]="i.id">{{i.nombre}}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+                <ion-item>
+                  <ion-select formControlName="comuna" [disabled]="seleccionComuna" [(ngModel)]="comunaSel"  label="Comuna" placeholder="Seleccione">
+                    <ion-select-option *ngFor="let i of comunas" [value]="i.id">{{i.nombre}}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="12">
                 <ion-input type="password" placeholder="Contraseña" formControlName="password"></ion-input>
               </ion-col>
               <ion-col size="12">
