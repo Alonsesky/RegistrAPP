@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { BarcodeFormat } from '@zxing/library';
-import QRCode from '@zxing/library/esm/core/qrcode/encoder/QRCode';
-
+import { StorageService } from '../services/storage.service';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -16,11 +15,11 @@ export class HomePage {
   idAlumno!:string;
   showScanner = true;
   showAlert = false;
-  
 
 
 
-  constructor(public router: Router, public alertController: AlertController) {}
+
+  constructor(private storage: StorageService, public router: Router, public alertController: AlertController) {}
 
   public alertButtons = [
     {
@@ -31,8 +30,10 @@ export class HomePage {
     }
   ];
 
-  ngOnInit(){
-    var user = localStorage.getItem('login');
+  async ngOnInit(){
+    //var user = localStorage.getItem('login');
+    //Enviando datos a storage para utilizarlo en HOME
+    var user = await this.storage.getItem('login');
     if(user){
       var userItems = JSON.parse(user);
       this.usuario= userItems.name + " " + userItems.lastName;
@@ -40,18 +41,18 @@ export class HomePage {
     }
   }
 
-
+  //Metodos de QR
   clearResult(): void {
     this.qrResultString = '';
   }
-  
+
   async onCodeResult(resultString: string) {
     this.qrResultString = resultString;
     if (this.qrResultString!=null){
-    
+
       this.showScanner = false;
       this.showAlert = true;
-  
+
       var sesion = localStorage.getItem('sesion');
       if (sesion) {
         var sesionItems = JSON.parse(sesion);
@@ -86,10 +87,8 @@ export class HomePage {
       }
     }
   }
-  
 
-  
-  /*let dataQR = this.qrResultString.split(',');
-    this.dataQR = dataQR.join('\n');*/
-    
+
+
+
 }

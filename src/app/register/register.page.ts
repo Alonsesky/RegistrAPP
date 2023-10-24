@@ -5,7 +5,7 @@ import { AlertController } from '@ionic/angular';
 import { LocationService } from 'src/app/services/location.service';
 import { Comuna } from 'src/app/models/comuna';
 import { Region } from 'src/app/models/region';
-
+import { StorageService } from '../services/storage.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -30,7 +30,8 @@ export class RegisterPage implements OnInit {
               public fb: FormBuilder,
               public router: Router,
               public alertController: AlertController,
-              private locationService:LocationService) {
+              private locationService:LocationService,
+              private storage :StorageService) {
     this.fmRegistro = new FormGroup({
       rut: new FormControl('',Validators.required),
       dv: new FormControl('',Validators.required),
@@ -47,7 +48,7 @@ export class RegisterPage implements OnInit {
   ngOnInit() {
     this.cargarRegion();
   }
-
+  //API Regiones y Comunas
   async cargarRegion(){
     const req = await this.locationService.getRegion();
     this.regiones = req.data;
@@ -114,60 +115,64 @@ export class RegisterPage implements OnInit {
   async guardarUser(){
     var validation = await this.onSubmit();
     var form = this.fmRegistro.value;
-    var alumnos = localStorage.getItem('alumno');
     this.rutDv = form.rut+'-'+form.dv;
 
     if (validation) {
+      let alumnos = await this.storage.getItem('alumno');
       if (alumnos) {
-        let usersItems: any[] = JSON.parse(localStorage.getItem('alumno') || '[]');
-        this.id = usersItems[usersItems.length -1].id;
-        this.id++;
-        // Encuentra el índice del usuario que deseas modificar
-        let index = usersItems.findIndex(user => user.rut === this.rutDv);
-        // Si el rut existe, modifica sus datos
-        if (index !== -1) {
-          const alert = await this.alertController.create({
-            header: 'Usuario existente',
-            message: 'Ingrese datos correctos.',
-            buttons: ['Aceptar']
-          });
-          await alert.present();
-          return;
+        //let usersItems: any[] = JSON.parse(localStorage.getItem('alumno') || '[]');
+        if (alumnos !== null) {
+          let usersItems: any[] = JSON.parse(alumnos);
 
-        } else{
-          let indexUser = usersItems.findIndex(user => user.usuario === form.usuario);
-          if (indexUser==-1) {
-            var alumno = {
-              id: this.id,
-              usuario: form.usuario,
-              password: form.password,
-              name: form.nombre,
-              lastName: form.apellido,
-              rut: this.rutDv,
-              carrera: form.carrera,
+          this.id = usersItems[usersItems.length -1].id;
+          this.id++;
+          // Encuentra el índice del usuario que deseas modificar
+          let index = usersItems.findIndex(user => user.rut === this.rutDv);
+          // Si el rut existe, modifica sus datos
+          if (index !== -1) {
+            const alert = await this.alertController.create({
+              header: 'Usuario existente',
+              message: 'Ingrese datos correctos.',
+              buttons: ['Aceptar']
+            });
+            await alert.present();
+            return;
+
+          } else{
+            let indexUser = usersItems.findIndex(user => user.usuario === form.usuario);
+            if (indexUser==-1) {
+              var alumno = {
+                id: this.id,
+                usuario: form.usuario,
+                password: form.password,
+                name: form.nombre,
+                lastName: form.apellido,
+                rut: this.rutDv,
+                carrera: form.carrera,
+              }
+              usersItems.push(alumno);
+              // Guarda los datos modificados de nuevo en el localStorage
+              this.storage.setItem('alumno', JSON.stringify(usersItems));
+              const alert = await this.alertController.create({
+                header: 'Datos con exito!',
+                message: 'Se han actualizado los datos.',
+                buttons: ['Aceptar']
+              });
+              await alert.present();
+              this.router.navigate(['/login']);
+
+            } else {
+              const alert = await this.alertController.create({
+                header: 'Datos sin éxito!',
+                message: 'El Usuario existe, intente con otro.',
+                buttons: ['Aceptar']
+              });
+              await alert.present();
+              this.router.navigate(['/recuperar-pass']);
             }
-            usersItems.push(alumno);
-            // Guarda los datos modificados de nuevo en el localStorage
-            localStorage.setItem('alumno', JSON.stringify(usersItems));
-            const alert = await this.alertController.create({
-              header: 'Datos con exito!',
-              message: 'Se han actualizado los datos.',
-              buttons: ['Aceptar']
-            });
-            await alert.present();
-            this.router.navigate(['/login']);
 
-          } else {
-            const alert = await this.alertController.create({
-              header: 'Datos sin éxito!',
-              message: 'El Usuario existe, intente con otro.',
-              buttons: ['Aceptar']
-            });
-            await alert.present();
-            this.router.navigate(['/recuperar-pass']);
           }
         }
-
       }
 
     }

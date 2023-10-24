@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, Animation, AnimationController, IonCardTitle } from '@ionic/angular';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-login',
@@ -9,14 +10,18 @@ import { AlertController, Animation, AnimationController, IonCardTitle } from '@
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  @ViewChild(IonCardTitle, {read: ElementRef}) 
+  @ViewChild(IonCardTitle, {read: ElementRef})
   title!: ElementRef<HTMLIonCardElement>;
   animation!: Animation;
   fmLogin: FormGroup;
   usuario: String = '';
   password:String='';
 
-  constructor(private animationCtrl: AnimationController, public fb: FormBuilder, public router: Router,public alertController: AlertController) {
+  constructor(
+              private animationCtrl: AnimationController,
+              public fb: FormBuilder,
+              public router: Router,public alertController: AlertController,
+              private storage : StorageService) {
     this.fmLogin = this.fb.group({
       'usuario': new FormControl("", Validators.required),
       'password': new FormControl("", Validators.required)
@@ -24,8 +29,10 @@ export class LoginPage implements OnInit {
   }
 
 
-  ngOnInit() {
-    var alumnos = localStorage.getItem('alumno');
+  async ngOnInit() {
+    //var alumnos = localStorage.getItem('alumno');
+    //Aplicando storage Capacitor
+    var alumnos = await this.storage.getItem('alumno');
     if(alumnos==null){
       var alumno = {
         id:1,
@@ -44,9 +51,12 @@ export class LoginPage implements OnInit {
         rut: '99999999-9'
       }
       var agregar = [alumno, alumno2]
-      localStorage.setItem('alumno',JSON.stringify(agregar));
+      //localStorage.setItem('alumno',JSON.stringify(agregar));
+      //Aplicando storage Capacitor
+      await this.storage.setItem('alumno', JSON.stringify(agregar));
+
     }
-    
+
   }
 
   ngAfterViewInit() {
@@ -56,19 +66,20 @@ export class LoginPage implements OnInit {
       .duration(1500)
       .iterations(Infinity)
       .fromTo('transform', 'translateX(-100px)', 'translateX(100px)')
-      .fromTo('opacity', '10', '0.5');  
+      .fromTo('opacity', '10', '0.5');
     this.animation.play();
   }
 
   //Verificar datos de login
   async verificarLogin(){
     var form = this.fmLogin.value;
-    var alumnos = localStorage.getItem('alumno');
-  
-    
+    //var alumnos = localStorage.getItem('alumno');
+    //Aplicando storage Capacitor
+    var alumnos = await this.storage.getItem('alumno');
+
     if (alumnos!==null) {
       var usersItems = JSON.parse(alumnos);
-      let userItems = usersItems.find( (alumno: { usuario: string; }) => 
+      let userItems = usersItems.find( (alumno: { usuario: string; }) =>
       alumno.usuario === form.usuario
       );
 
@@ -90,9 +101,12 @@ export class LoginPage implements OnInit {
           name: userItems.name,
           lastName: userItems.lastName
         }
-        localStorage.setItem('login',JSON.stringify(login));
+
+        //localStorage.setItem('login',JSON.stringify(login));
+        ////Aplicando storage Capacitor
+        await this.storage.setItem("login",JSON.stringify(login));
         //Redirigir al usuario ingresado
-        this.router.navigate(['/home']); 
+        this.router.navigate(['/home']);
         this.limpiarInputs();
       } else {
         const alert = await this.alertController.create({
@@ -114,6 +128,6 @@ export class LoginPage implements OnInit {
 
   //Crear contraseña
   recuperarPass(){
-    this.router.navigate(['/recuperar-pass']); 
+    this.router.navigate(['/recuperar-pass']);
   }
 }

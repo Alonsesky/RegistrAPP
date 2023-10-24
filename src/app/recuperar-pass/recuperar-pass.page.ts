@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-
+import { StorageService } from '../services/storage.service';
 @Component({
   selector: 'app-recuperar-pass',
   templateUrl: './recuperar-pass.page.html',
@@ -15,7 +15,11 @@ export class RecuperarPassPage implements OnInit {
   dv!: string;
   id!: number;
   validation: boolean = false;
-  constructor(public fb: FormBuilder, public router: Router, public alertController: AlertController) {
+  constructor(
+              public fb: FormBuilder,
+              public router: Router,
+              public alertController: AlertController,
+              private storage : StorageService) {
     this.fmRegister = this.fb.group({
       'newPassword': new FormControl("", Validators.required),
       'rut': new FormControl("", Validators.required),
@@ -63,12 +67,13 @@ export class RecuperarPassPage implements OnInit {
   async guardarUser(){
     var validation = await this.verificar();
     var form = this.fmRegister.value;
-    var alumnos = localStorage.getItem('alumno');
+    var alumnos = await this.storage.getItem('alumno');
     this.rutDv = form.rut+'-'+form.dv;
 
     if (validation) {
+      let alumnos = await this.storage.getItem('alumno');
       if (alumnos) {
-        let usersItems: any[] = JSON.parse(localStorage.getItem('alumno') || '[]');
+        let usersItems: any[] = JSON.parse(alumnos);
         this.id = usersItems[usersItems.length -1].id;
         this.id++;
         // Encuentra el índice del usuario que deseas modificar
@@ -77,7 +82,7 @@ export class RecuperarPassPage implements OnInit {
         if (index !== -1) {
           usersItems[index].password = form.newPassword;
           // Guarda los datos modificados en localStorage
-          localStorage.setItem('alumno', JSON.stringify(usersItems));
+          this.storage.setItem('alumno', JSON.stringify(usersItems));
           const alert = await this.alertController.create({
             header: 'Contraseña actualizado con éxito!',
             message: 'Recuerda tu nueva contraseña.',
