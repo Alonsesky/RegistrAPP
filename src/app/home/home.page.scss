@@ -1,11 +1,5 @@
-#container {
+.tittle {
   text-align: center;
-  background-color: aliceblue;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
 }
 
 #container strong {
@@ -49,7 +43,7 @@
   margin-top: -100px;
   margin-left: -100px;
   border: 5px solid red;
-  
+
   animation-name: color-change;
   animation-duration: 10s;
   animation-iteration-count: infinite;

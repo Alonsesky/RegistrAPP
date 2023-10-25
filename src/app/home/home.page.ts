@@ -15,7 +15,7 @@ export class HomePage {
   idAlumno!:string;
   showScanner = true;
   showAlert = false;
-
+  mostrarDatos!:any;
 
 
 
@@ -25,7 +25,7 @@ export class HomePage {
     {
       text: 'OK',
       handler: () => {
-        this.router.navigate(['/login']);
+        this.router.navigate(['/home']);
       }
     }
   ];
@@ -45,7 +45,7 @@ export class HomePage {
   clearResult(): void {
     this.qrResultString = '';
   }
-
+/*
   async onCodeResult(resultString: string) {
     this.qrResultString = resultString;
     if (this.qrResultString!=null){
@@ -68,7 +68,7 @@ export class HomePage {
               buttons: ['Aceptar']
             });
             await alert.present();
-            this.router.navigate(['/login']);
+            this.router.navigate(['/home']);
           }
         } else {
           var newClass = {
@@ -87,8 +87,81 @@ export class HomePage {
       }
     }
   }
+*/
+
+  async onCodeResult(resultString: string) {
+    this.qrResultString = resultString;
+    if (this.qrResultString!=null){
+      //EXTRAER DATOS DEL STRING
+      //"Nombre Profesor: Pepito Juan, Hora: 20:30, sala: 805, Dia: lunes";
+      var str = this.qrResultString;
+      var partes = str.split(", ");
+      var objeto:any = {};
+
+      partes.forEach(function(parte) {
+        var indice = parte.indexOf(":");
+        var clave = parte.substring(0, indice);
+        var valor = parte.substring(indice + 1);
+        objeto[clave] = valor;
+      });
+
+      this.showScanner = false;
+
+      let sesion = await this.storage.getItem('sesion');
+      let sesionItems: any[] = sesion ? JSON.parse(sesion) : [];
+      let noExistente = sesionItems.find((item: { qr: string; }) => item.qr === this.qrResultString);
+
+      if (noExistente) {
+        if (!noExistente.asistencia.includes(this.idAlumno)) {
+          noExistente.asistencia.push(this.idAlumno);
+        } else {
+          const alert = await this.alertController.create({
+            header: 'Ya estás registrado!',
+            message: `Ya estas en la lista de asistencia. ${this.usuario}`,
+            buttons: ['Aceptar']
+          });
+          await alert.present();
+        }
+      } else {
+        var newSesion = {
+          qr: this.qrResultString,
+          nombreProfesor: objeto["Nombre Profesor"],
+          hora: objeto["Hora"],
+          sala: objeto["sala"],
+          dia: objeto["Dia"],
+          asistencia: [this.idAlumno]
+        };
+        sesionItems.push(newSesion);
+        this.showAlert = true;
 
 
+        //TRAER DATOS DEL ALUMNO
+        let alumnos = await this.storage.getItem('alumno');
+        let data = alumnos ? JSON.parse(alumnos) : [];
+        let dataAlumno = data.find((item: { id: string; }) => item.id === this.idAlumno);
+        //JUNTAR DATOS
+          this.mostrarDatos = [{
+          nombreProfesor: objeto["Nombre Profesor"],
+          hora: objeto["Hora"],
+          sala: objeto["sala"],
+          dia: objeto["Dia"],
+          asistencia: [this.idAlumno],
+          nombreAlumno: dataAlumno.name,
+          apellidoAlumno: dataAlumno.lastName,
+          comuna: dataAlumno.comuna,
+          region:dataAlumno.region,
+          rut:dataAlumno.rut
+        }];
+      }
+
+
+      //Modificamos el storage
+      this.storage.setItem('sesion', JSON.stringify(sesionItems));
+
+
+
+    }
+  }
 
 
 }

@@ -6,19 +6,45 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <h5>Bienvenido {{ usuario }}</h5>
-  <div class="scanner-container" *ngIf="showScanner">
-    <zxing-scanner (scanSuccess)="onCodeResult($event)"></zxing-scanner>
-    <div class="scanner-overlay"></div>
-  </div>
-  <section class="results" *ngIf="qrResultString">
-    <div>
-      <small>Registrado en: </small>
-      <strong>{{ qrResultString }}</strong>
-    </div>
-    <button mat-icon-button (click)="clearResult()">×</button>
-  </section>
+<ion-content [fullscreen]="true" class="container">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <h5 class="tittle">Bienvenido {{ usuario }}</h5>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <div class="scanner-container" *ngIf="showScanner">
+          <zxing-scanner (scanSuccess)="onCodeResult($event)"></zxing-scanner>
+          <div class="scanner-overlay"></div>
+        </div>
+        <section class="results" *ngIf="qrResultString">
+          <div>
+            <small>Registrado en: </small>
+            <strong>{{ qrResultString }}</strong>
+          </div>
+          <button mat-icon-button (click)="clearResult()">×</button>
+        </section>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-button expand="block" fill="clear" shape="round">
+          Detener
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <div *ngFor="let i of mostrarDatos">
+          <strong>{{i.comuna}}</strong>
+          <strong>{{i.rut}}</strong>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
   <ion-alert [isOpen]="showAlert"
     header="Asistencia Registrada"
     message="Registro exitoso!"

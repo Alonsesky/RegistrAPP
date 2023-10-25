@@ -140,6 +140,9 @@ export class RegisterPage implements OnInit {
 
           } else{
             let indexUser = usersItems.findIndex(user => user.usuario === form.usuario);
+            let regionRelacionada = this.regiones.find(region => region.id == form.region);
+            let comunaRelacionada = this.comunas.find(comuna=> comuna.id == form.comuna);
+
             if (indexUser==-1) {
               var alumno = {
                 id: this.id,
@@ -149,6 +152,8 @@ export class RegisterPage implements OnInit {
                 lastName: form.apellido,
                 rut: this.rutDv,
                 carrera: form.carrera,
+                region: regionRelacionada?.nombre,
+                comuna: comunaRelacionada?.nombre
               }
               usersItems.push(alumno);
               // Guarda los datos modificados de nuevo en el localStorage

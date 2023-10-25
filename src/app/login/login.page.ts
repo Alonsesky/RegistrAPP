@@ -40,15 +40,21 @@ export class LoginPage implements OnInit {
         password: 123456,
         name: 'Pedrito',
         lastName: 'Pazcal',
-        rut: '11111111-1'
+        rut: '11111111-1',
+        carrera: 'medicina',
+        region: 'Region Metropolitana',
+        comuna: 'Puente Alto'
       }
       var alumno2 = {
         id:2,
         usuario: 'Alumno2',
         password: 123456,
-        name: 'Peduuuu',
-        lastName: 'Pazcal',
-        rut: '99999999-9'
+        name: 'Leonardo',
+        lastName: 'Dikaprioh',
+        rut: '22222222-2',
+        carrera: 'fotografia',
+        region: 'Region Metropolitana',
+        comuna: 'Pintana'
       }
       var agregar = [alumno, alumno2]
       //localStorage.setItem('alumno',JSON.stringify(agregar));
