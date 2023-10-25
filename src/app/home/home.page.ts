@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { BarcodeFormat } from '@zxing/library';
 import { StorageService } from '../services/storage.service';
+import { Geolocation } from '@capacitor/geolocation';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -88,7 +89,16 @@ export class HomePage {
     }
   }
 */
+  //Metodo de geolocalizacion
+  async ObtenerGeolocation () {
+    const position = await Geolocation.getCurrentPosition();
+    let latitud = position.coords.latitude;
+    let longitud = position.coords.longitude;
+    var positionData = {latitud,longitud}
+    return positionData
+  }
 
+  //Lector QR y Mostrar resultados en HOME
   async onCodeResult(resultString: string) {
     this.qrResultString = resultString;
     if (this.qrResultString!=null){
@@ -134,6 +144,8 @@ export class HomePage {
         sesionItems.push(newSesion);
         this.showAlert = true;
 
+        //TRAER DATOS DE GEOLOCALIZACION
+        const dataGeo = await this.ObtenerGeolocation();
 
         //TRAER DATOS DEL ALUMNO
         let alumnos = await this.storage.getItem('alumno');
@@ -150,8 +162,12 @@ export class HomePage {
           apellidoAlumno: dataAlumno.lastName,
           comuna: dataAlumno.comuna,
           region:dataAlumno.region,
-          rut:dataAlumno.rut
+          rut:dataAlumno.rut,
+          latitud: dataGeo.latitud,
+          longitud: dataGeo.longitud
         }];
+
+
       }
 
 

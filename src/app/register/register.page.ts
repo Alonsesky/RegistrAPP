@@ -73,6 +73,7 @@ export class RegisterPage implements OnInit {
         buttons: ['Aceptar']
       });
       await alert.present();
+      this.limpiarcampos();
       return;
     }
     if (form.rut=='' || rutLength < 7 || rutLength > 8 || form.dv.length!=1 || !regex.test(form.dv.toUpperCase())){
@@ -108,10 +109,18 @@ export class RegisterPage implements OnInit {
       });
       await alert.present();
       return;
+    } else if (this.regionSel == 0 || this.comunaSel== 0) {
+      const alert = await this.alertController.create({
+        header: 'Datos incorrectos',
+        message: 'Debe seleccionar la Region y comuna.',
+        buttons: ['Aceptar']
+      });
+      await alert.present();
+      return;
     }
     return this.validation = true;
   }
-
+  //Guardar usuario
   async guardarUser(){
     var validation = await this.onSubmit();
     var form = this.fmRegistro.value;
@@ -165,6 +174,7 @@ export class RegisterPage implements OnInit {
               });
               await alert.present();
               this.router.navigate(['/login']);
+              this.limpiarcampos();
 
             } else {
               const alert = await this.alertController.create({
@@ -173,7 +183,8 @@ export class RegisterPage implements OnInit {
                 buttons: ['Aceptar']
               });
               await alert.present();
-              this.router.navigate(['/recuperar-pass']);
+              this.router.navigate(['/register']);
+              this.limpiarcampos();
             }
 
           }
@@ -183,6 +194,10 @@ export class RegisterPage implements OnInit {
     }
 
 
+  }
+  //Limpiar campos de registro
+  limpiarcampos() {
+    this.fmRegistro.reset();
   }
 
 }

@@ -96,6 +96,7 @@ export class LoginPage implements OnInit {
           buttons: ['Aceptar']
         });
         await alert.present();
+        this.limpiarInputs();
         return;
       }
       if (userItems && userItems.usuario == form.usuario && userItems.password == form.password) {
@@ -121,6 +122,7 @@ export class LoginPage implements OnInit {
           buttons: ['Aceptar']
         });
         await alert.present();
+        this.limpiarInputs();
         return;
       }
     }
@@ -128,8 +130,7 @@ export class LoginPage implements OnInit {
 
   //Limpiar inputs
   limpiarInputs(){
-    this.usuario = '';
-    this.password= '';
+    this.fmLogin.reset();
   }
 
   //Crear contraseña
