@@ -13,7 +13,7 @@
         <h5 class="tittle">Bienvenido {{ usuario }}</h5>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row class="container">
       <ion-col size="12">
         <div class="scanner-container" *ngIf="showScanner">
           <zxing-scanner (scanSuccess)="onCodeResult($event)"></zxing-scanner>
@@ -24,13 +24,6 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col size="12">
-        <ion-button expand="block" fill="clear" shape="round">
-          Detener
-        </ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row class="container">
       <ion-col size="12">
         <div *ngFor="let i of mostrarDatos">
           <ion-grid fixed>
@@ -58,6 +51,20 @@
             <ion-row>
               <ion-col size="6"><strong>Latitud: </strong>{{i.latitud}} </ion-col>
               <ion-col size="6"><strong>Longitud: </strong>{{i.longitud}} </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="12">
+                <ion-button (click)="takeSelfie()" expand="block" fill="clear" shape="round">
+                  Selfie
+                </ion-button>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="12">
+                <ion-card  *ngFor="let i of selfie">
+                  <ion-img [src]="i.src"></ion-img>
+                </ion-card>
+              </ion-col>
             </ion-row>
           </ion-grid>
         </div>

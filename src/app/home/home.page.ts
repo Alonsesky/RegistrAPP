@@ -4,6 +4,9 @@ import { AlertController } from '@ionic/angular';
 import { BarcodeFormat } from '@zxing/library';
 import { StorageService } from '../services/storage.service';
 import { Geolocation } from '@capacitor/geolocation';
+import { Camera, CameraResultType,CameraSource } from '@capacitor/camera';
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -17,8 +20,8 @@ export class HomePage {
   showScanner = true;
   showAlert = false;
   mostrarDatos!:any;
-
-
+  selfie:any[]=[];
+  btnSelfie:boolean=true;
 
   constructor(private storage: StorageService, public router: Router, public alertController: AlertController) {}
 
@@ -40,6 +43,8 @@ export class HomePage {
       this.usuario= userItems.name + " " + userItems.lastName;
       this.idAlumno= userItems.id;
     }
+    //Iniciar camera
+    defineCustomElements(window);
   }
 
   //Metodos de QR
@@ -146,12 +151,11 @@ export class HomePage {
         this.storage.setItem('sesion', JSON.stringify(sesionItems));
         this.showAlert = true;
 
-
       }
 
       //TRAER DATOS DE GEOLOCALIZACION
       const dataGeo = await this.ObtenerGeolocation();
-
+      await this.takeSelfie();
       //TRAER DATOS DEL ALUMNO
       let alumnos = await this.storage.getItem('alumno');
       let data = alumnos ? JSON.parse(alumnos) : [];
@@ -179,5 +183,32 @@ export class HomePage {
     }
   }
 
+  //Usaremos Camera para selfie
+  async takeSelfie(){
+    var cSource = CameraSource.Prompt;
+    if ((await Camera.checkPermissions()).camera == 'granted') {
+      const image = await Camera.getPhoto({
+        resultType: CameraResultType.Uri,
+        quality: 100,
+        height:1024,
+        width:1024,
+        source:cSource,
+        presentationStyle:'popover',
+        promptLabelCancel:'cancelar',
+        promptLabelHeader:'seleccione',
+        promptLabelPhoto: 'Desde la camara',
+        promptLabelPicture:'Desde galeria'
+      });
+
+      if (image.webPath) {
+        var blob = (await fetch(image.webPath)).blob();
+        this.selfie.unshift({fname:'Foto.' + image.format, src:image.webPath,file:blob})
+      }
+      console.log("Imagenes guardadas ==>", this.selfie);
+
+
+    }
+
+  }
 
 }
