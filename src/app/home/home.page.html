@@ -6,7 +6,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="container">
+<ion-content [fullscreen]="true" >
   <ion-grid fixed>
     <ion-row>
       <ion-col size="12">
@@ -20,11 +20,6 @@
           <div class="scanner-overlay"></div>
         </div>
         <section class="results" *ngIf="qrResultString">
-          <div>
-            <small>Registrado en: </small>
-            <strong>{{ qrResultString }}</strong>
-          </div>
-          <button mat-icon-button (click)="clearResult()">×</button>
         </section>
       </ion-col>
     </ion-row>
@@ -35,33 +30,34 @@
         </ion-button>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row class="container">
       <ion-col size="12">
         <div *ngFor="let i of mostrarDatos">
           <ion-grid fixed>
             <ion-row>
-              <ion-col size="12"> {{i.nombreProfesor}}</ion-col>
+              <ion-col size="12"><H1>Datos Registrados</H1></ion-col>
             </ion-row>
             <ion-row>
-              <ion-col size="6">{{i.hora}}</ion-col>
-              <ion-col size="6">{{i.sala}}</ion-col>
+              <ion-col size="12"><strong>Nombre Profesor:</strong> {{i.nombreProfesor}}</ion-col>
             </ion-row>
             <ion-row>
-              <ion-col size="12">{{i.dia}}</ion-col>
+              <ion-col size="4"><strong>Hora: </strong>{{i.hora}}</ion-col>
+              <ion-col size="4"><strong>Sala: </strong>{{i.sala}}</ion-col>
+              <ion-col size="4"><strong>Día: </strong>{{i.dia}}</ion-col>
             </ion-row>
             <ion-row>
-              <ion-col size="12">{{i.nombreAlumno}} {{i.apellidoAlumno}}</ion-col>
+              <ion-col size="12"><strong>Nombre Alumno: </strong>{{i.nombreAlumno}} {{i.apellidoAlumno}}</ion-col>
             </ion-row>
             <ion-row>
-              <ion-col size="6">{{i.region}}</ion-col>
-              <ion-col size="6">{{i.comuna}}</ion-col>
+              <ion-col size="6"><strong>Región: </strong>{{i.region}}</ion-col>
+              <ion-col size="6"><strong>Comuna: </strong> {{i.comuna}}</ion-col>
             </ion-row>
             <ion-row>
-              <ion-col size="12">{{i.rut}}</ion-col>
+              <ion-col size="12"><strong>Rut: </strong>{{i.rut}}</ion-col>
             </ion-row>
             <ion-row>
-              <ion-col size="6"> {{i.latitud}} </ion-col>
-              <ion-col size="6"> {{i.longitud}} </ion-col>
+              <ion-col size="6"><strong>Latitud: </strong>{{i.latitud}} </ion-col>
+              <ion-col size="6"><strong>Longitud: </strong>{{i.longitud}} </ion-col>
             </ion-row>
           </ion-grid>
         </div>

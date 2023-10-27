@@ -142,35 +142,35 @@ export class HomePage {
           asistencia: [this.idAlumno]
         };
         sesionItems.push(newSesion);
+        //Modificamos el storage
+        this.storage.setItem('sesion', JSON.stringify(sesionItems));
         this.showAlert = true;
-
-        //TRAER DATOS DE GEOLOCALIZACION
-        const dataGeo = await this.ObtenerGeolocation();
-
-        //TRAER DATOS DEL ALUMNO
-        let alumnos = await this.storage.getItem('alumno');
-        let data = alumnos ? JSON.parse(alumnos) : [];
-        let dataAlumno = data.find((item: { id: string; }) => item.id === this.idAlumno);
-        //JUNTAR DATOS
-          this.mostrarDatos = [{
-          nombreProfesor: objeto["Nombre Profesor"],
-          hora: objeto["Hora"],
-          sala: objeto["sala"],
-          dia: objeto["Dia"],
-          asistencia: [this.idAlumno],
-          nombreAlumno: dataAlumno.name,
-          apellidoAlumno: dataAlumno.lastName,
-          comuna: dataAlumno.comuna,
-          region:dataAlumno.region,
-          rut:dataAlumno.rut,
-          latitud: dataGeo.latitud,
-          longitud: dataGeo.longitud
-        }];
 
 
       }
 
+      //TRAER DATOS DE GEOLOCALIZACION
+      const dataGeo = await this.ObtenerGeolocation();
 
+      //TRAER DATOS DEL ALUMNO
+      let alumnos = await this.storage.getItem('alumno');
+      let data = alumnos ? JSON.parse(alumnos) : [];
+      let dataAlumno = data.find((item: { id: string; }) => item.id === this.idAlumno);
+      //JUNTAR DATOS
+        this.mostrarDatos = [{
+        nombreProfesor: objeto["Nombre Profesor"],
+        hora: objeto["Hora"],
+        sala: objeto["sala"],
+        dia: objeto["Dia"],
+        asistencia: [this.idAlumno],
+        nombreAlumno: dataAlumno.name,
+        apellidoAlumno: dataAlumno.lastName,
+        comuna: dataAlumno.comuna,
+        region:dataAlumno.region,
+        rut:dataAlumno.rut,
+        latitud: dataGeo.latitud,
+        longitud: dataGeo.longitud
+      }];
       //Modificamos el storage
       this.storage.setItem('sesion', JSON.stringify(sesionItems));
 
