@@ -1,4 +1,4 @@
-#container {
+.container {
   text-align: center;
 
   position: absolute;
@@ -6,4 +6,21 @@
   right: 0;
   top: 50%;
   transform: translateY(-50%);
+
+}
+
+.container {
+  background-image: url(https://images.pexels.com/photos/9982674/pexels-photo-9982674.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1);
+  background-color: black;
+  background-size: cover;
+  height: 100%;
+}
+
+.transparent-card {
+  --ion-background-color: #ffffffa4;
+  margin-top: 30%;
+}
+
+ion-item {
+  --ion-background-color: transparent;
 }
