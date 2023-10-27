@@ -14,35 +14,60 @@
         <ion-card-title class="title">Registrate!</ion-card-title>
       </ion-card-header>
       <ion-card-content>
+
         <form [formGroup]="fmRegistro">
           <ion-grid fixed>
             <ion-row>
               <ion-col size="5">
-                <ion-input type="number" placeholder="12345678" formControlName="rut"></ion-input>
+                <ion-item>
+                  <ion-input type="number" labelPlacement="floating" placeholder="12345678" formControlName="rut">
+                    <div slot="label">RUT <ion-text color="danger"></ion-text></div>
+                  </ion-input>
+                </ion-item>
               </ion-col>
               <ion-col size="1">
                 <ion-input readonly value="-"></ion-input>
               </ion-col>
               <ion-col size="4">
-                <ion-input type="text" size="small" placeholder="K" formControlName="dv"></ion-input>
+                <ion-item>
+                  <ion-input type="text" labelPlacement="floating" size="small" placeholder="K" formControlName="dv">
+                    <div slot="label">DV <ion-text color="danger"></ion-text></div>
+                  </ion-input>
+                </ion-item>
               </ion-col>
             </ion-row>
             <ion-row>
               <ion-col size="12">
-                <ion-input size="small" type="text" placeholder="Ingresar Usuario" formControlName="usuario"></ion-input>
+                <ion-item>
+                  <ion-input size="small" labelPlacement="floating" type="text" placeholder="Ingresar Usuario" formControlName="usuario">
+                    <div slot="label">Usuario <ion-text color="danger"></ion-text></div>
+                  </ion-input>
+                </ion-item>
               </ion-col>
             </ion-row>
             <ion-row>
               <ion-col size="12">
-                <ion-input size="small" type="text" placeholder="Ingresar Carrera" formControlName="carrera"></ion-input>
+                <ion-item>
+                  <ion-input size="small" labelPlacement="floating" type="text" placeholder="Ingresar Carrera" formControlName="carrera">
+                    <div slot="label">Carrera <ion-text color="danger"></ion-text></div>
+                  </ion-input>
+                </ion-item>
               </ion-col>
             </ion-row>
             <ion-row>
               <ion-col size="6">
-                <ion-input type="text" placeholder="Nombre" formControlName="nombre"></ion-input>
+                <ion-item>
+                  <ion-input type="text" labelPlacement="floating" placeholder="Nombre" formControlName="nombre">
+                    <div slot="label">Nombre <ion-text color="danger"></ion-text></div>
+                  </ion-input>
+                </ion-item>
               </ion-col>
               <ion-col size="6">
-                <ion-input  type="text" placeholder="Apellido" formControlName="apellido"></ion-input>
+                <ion-item>
+                  <ion-input  type="text" labelPlacement="floating" placeholder="Apellido" formControlName="apellido">
+                    <div slot="label">Apellido <ion-text color="danger"></ion-text></div>
+                  </ion-input>
+                </ion-item>
               </ion-col>
             </ion-row>
             <ion-row>
@@ -61,7 +86,11 @@
             </ion-row>
             <ion-row>
               <ion-col size="12">
-                <ion-input type="password" placeholder="Contraseña" formControlName="password"></ion-input>
+                <ion-item>
+                  <ion-input type="password" labelPlacement="floating" placeholder="Mínimo 6 digitos" formControlName="password">
+                    <div slot="label">Contraseña <ion-text color="danger">(No olvidar)</ion-text></div>
+                  </ion-input>
+                </ion-item>
               </ion-col>
               <ion-col size="12">
                 <ion-button (click)="guardarUser()" shape="round" color="success">Guardar!</ion-button>

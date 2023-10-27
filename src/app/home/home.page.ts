@@ -211,4 +211,11 @@ export class HomePage {
 
   }
 
+  //Cerrar sesion
+  cerrarSesion(){
+    this.showScanner = false;
+    this.router.navigate(['/login']);
+
+  }
+
 }

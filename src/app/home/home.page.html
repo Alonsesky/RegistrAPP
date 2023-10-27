@@ -3,6 +3,7 @@
     <ion-title>
       Asistencia QR!
     </ion-title>
+    <ion-button (click)="cerrarSesion()" color="dark" fill="outline"  size="small" slot="end">Salir</ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -51,13 +52,6 @@
             <ion-row>
               <ion-col size="6"><strong>Latitud: </strong>{{i.latitud}} </ion-col>
               <ion-col size="6"><strong>Longitud: </strong>{{i.longitud}} </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col size="12">
-                <ion-button (click)="takeSelfie()" expand="block" fill="clear" shape="round">
-                  Selfie
-                </ion-button>
-              </ion-col>
             </ion-row>
             <ion-row>
               <ion-col size="12">

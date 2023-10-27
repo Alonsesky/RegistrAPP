@@ -94,7 +94,7 @@ export class RecuperarPassPage implements OnInit {
         } else{
           const alert = await this.alertController.create({
             header: 'Datos sin éxito!',
-            message: 'El Usuario existe, intente con otro.',
+            message: 'El Usuario NO existe, intente con otro.',
             buttons: ['Aceptar']
           });
           await alert.present();
