@@ -1,12 +1,10 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>login</ion-title>
-  </ion-toolbar>
+
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div id="container">
-    <ion-card>
+  <div class="container">
+    <ion-card class="transparent-card">
       <ion-card-header>
         <ion-card-title #title>Iniciar Sesión</ion-card-title>
       </ion-card-header>
@@ -32,16 +30,32 @@
             </ion-row>
           </ion-grid>
         </form>
+        <ion-grid fixed>
+          <ion-row>
+            <ion-col size="12">
+              <ion-button (click)="recuperarPass()" size="small" shape="circle" color="light">
+                Recuperar contraseña
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12"></ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6">
+              <ion-button (click)="limpiarInputs()" shape="round" color="danger">Limpiar</ion-button>
+            </ion-col>
+            <ion-col size="6">
+              <ion-button (click)="verificarLogin()" shape="round" color="primary">Ingresar</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-button  [routerLink]="['/register']" color="warning" expand="full" fill="solid" size="default" shape="default">
+          Registrate
+        </ion-button>
       </ion-card-content>
-      <ion-button (click)="limpiarInputs()" shape="round" color="warning">Limpiar</ion-button>
-      <ion-button (click)="verificarLogin()" shape="round" color="success">Ingresar</ion-button>
     </ion-card>
-    <ion-button (click)="recuperarPass()" size="small" shape="circle" color="light">
-      Recuperar contraseña
-    </ion-button>
-    <ion-button  [routerLink]="['/register']" fill="outline" expand="block" fill="clear" shape="round">
-      Registrate
-    </ion-button>
+
 
   </div>
 
