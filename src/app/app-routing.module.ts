@@ -36,10 +36,15 @@ const routes: Routes = [
     loadChildren: () => import('./e404/e404.module').then( m => m.E404PageModule)
   },
   {
+    path: 'e-access',
+    loadChildren: () => import('./e-access/e-access.module').then( m => m.EAccessPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'e404',
     pathMatch: 'full'
   },
+
 
 ];
 

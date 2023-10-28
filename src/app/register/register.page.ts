@@ -83,6 +83,7 @@ export class RegisterPage implements OnInit {
         buttons: ['Aceptar']
       });
       await alert.present();
+      this.limpiarcampos();
       return;
     } else if (form.usuario.length>8 || form.usuario.length<3 || form.usuario=='') {
       const alert = await this.alertController.create({
@@ -91,6 +92,7 @@ export class RegisterPage implements OnInit {
         buttons: ['Aceptar']
       });
       await alert.present();
+      this.limpiarcampos();
       return;
     } else if(form.password.length<4 || form.password==''){
       const alert = await this.alertController.create({
@@ -99,6 +101,7 @@ export class RegisterPage implements OnInit {
         buttons: ['Aceptar']
       });
       await alert.present();
+      this.limpiarcampos();
       return;
 
     } else if (form.carrera.length<3 || form.carrera=='') {
@@ -108,6 +111,7 @@ export class RegisterPage implements OnInit {
         buttons: ['Aceptar']
       });
       await alert.present();
+      this.limpiarcampos();
       return;
     } else if (this.regionSel == 0 || this.comunaSel== 0) {
       const alert = await this.alertController.create({
@@ -116,6 +120,7 @@ export class RegisterPage implements OnInit {
         buttons: ['Aceptar']
       });
       await alert.present();
+      this.limpiarcampos();
       return;
     }
     return this.validation = true;

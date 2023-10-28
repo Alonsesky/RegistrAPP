@@ -196,15 +196,15 @@ export class HomePage {
         presentationStyle:'popover',
         promptLabelCancel:'cancelar',
         promptLabelHeader:'seleccione',
-        promptLabelPhoto: 'Desde la camara',
-        promptLabelPicture:'Desde galeria'
+        promptLabelPhoto: 'Desde galeria',
+        promptLabelPicture:'Desde la camara'
       });
 
       if (image.webPath) {
         var blob = (await fetch(image.webPath)).blob();
         this.selfie.unshift({fname:'Foto.' + image.format, src:image.webPath,file:blob})
       }
-      console.log("Imagenes guardadas ==>", this.selfie);
+
 
 
     }
