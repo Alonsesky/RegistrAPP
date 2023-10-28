@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AlertController, Animation, AnimationController, IonCardTitle } from '@ionic/angular';
 import { StorageService } from '../services/storage.service';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -16,6 +17,7 @@ export class LoginPage implements OnInit {
   fmLogin: FormGroup;
   usuario: String = '';
   password:String='';
+
 
   constructor(
               private animationCtrl: AnimationController,
@@ -106,13 +108,15 @@ export class LoginPage implements OnInit {
         var login ={
           id: userItems.id,
           name: userItems.name,
-          lastName: userItems.lastName
+          lastName: userItems.lastName,
+          ingreso: true
         }
 
         //localStorage.setItem('login',JSON.stringify(login));
         ////Aplicando storage Capacitor
         await this.storage.setItem("login",JSON.stringify(login));
         //Redirigir al usuario ingresado
+
         this.router.navigate(['/home']);
         this.limpiarInputs();
       } else {
@@ -137,4 +141,5 @@ export class LoginPage implements OnInit {
   recuperarPass(){
     this.router.navigate(['/recuperar-pass']);
   }
+
 }

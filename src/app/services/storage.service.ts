@@ -47,7 +47,9 @@ export class StorageService {
     }
   }
 
-
+  async removeItem(llave:string){
+    await Preferences.remove({key:llave});
+  }
 
 }
 

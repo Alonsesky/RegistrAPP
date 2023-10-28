@@ -214,8 +214,8 @@ export class HomePage {
   //Cerrar sesion
   cerrarSesion(){
     this.showScanner = false;
+    this.storage.removeItem('login');
     this.router.navigate(['/login']);
-
   }
 
 }
