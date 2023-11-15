@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { BarcodeFormat } from '@zxing/library';
+//import { BarcodeFormat } from '@zxing/library';
+import { BarcodeScanner } from 'capacitor-barcode-scanner';
 import { StorageService } from '../services/storage.service';
 import { Geolocation } from '@capacitor/geolocation';
 import { Camera, CameraResultType,CameraSource } from '@capacitor/camera';
@@ -13,7 +14,7 @@ import { defineCustomElements } from '@ionic/pwa-elements/loader';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  formatsEnabled: BarcodeFormat[] = [BarcodeFormat.AZTEC];
+  //formatsEnabled: BarcodeFormat[] = [BarcodeFormat.AZTEC];
   qrResultString!: string;
   usuario!: string;
   idAlumno!:string;
@@ -104,7 +105,7 @@ export class HomePage {
   }
 
   //Lector QR y Mostrar resultados en HOME
-  async onCodeResult(resultString: string) {
+  async scan(resultString: string) {
     this.qrResultString = resultString;
     if (this.qrResultString!=null){
       //EXTRAER DATOS DEL STRING

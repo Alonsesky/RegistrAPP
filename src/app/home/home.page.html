@@ -17,7 +17,7 @@
     <ion-row class="container">
       <ion-col size="12">
         <div class="scanner-container" *ngIf="showScanner">
-          <zxing-scanner (scanSuccess)="onCodeResult($event)"></zxing-scanner>
+          <zxing-scanner (scanSuccess)="scan($event)"></zxing-scanner>
           <div class="scanner-overlay"></div>
         </div>
         <section class="results" *ngIf="qrResultString">
