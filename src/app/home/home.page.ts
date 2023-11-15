@@ -155,8 +155,9 @@ export class HomePage {
       }
 
       //TRAER DATOS DE GEOLOCALIZACION
+      this.getPhoto();
       const dataGeo = await this.ObtenerGeolocation();
-      await this.takeSelfie();
+
       //TRAER DATOS DEL ALUMNO
       let alumnos = await this.storage.getItem('alumno');
       let data = alumnos ? JSON.parse(alumnos) : [];
@@ -185,7 +186,7 @@ export class HomePage {
   }
 
   //Usaremos Camera para selfie
-  async takeSelfie(){
+  async getPhoto(){
     var cSource = CameraSource.Prompt;
     if ((await Camera.checkPermissions()).camera == 'granted') {
       const image = await Camera.getPhoto({
@@ -205,9 +206,6 @@ export class HomePage {
         var blob = (await fetch(image.webPath)).blob();
         this.selfie.unshift({fname:'Foto.' + image.format, src:image.webPath,file:blob})
       }
-
-
-
     }
 
   }
